@@ -1,5 +1,7 @@
 const http = require('http');
 
+const PORT = 2137;
+
 function handleRequest(req, res) {
   console.log("New request: " + req.method + " " + req.url);
 
@@ -11,4 +13,7 @@ function handleRequest(req, res) {
 };
 
 let app = http.createServer(handleRequest);
-app.listen(2137);
+console.log("Server is up!");
+app.listen(PORT);
+console.log("Listening on port " + PORT);
+console.log("-------------------------");
