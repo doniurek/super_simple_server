@@ -3,7 +3,7 @@ const http = require('http');
 const PORT = 2137;
 
 function handleRequest(req, res) {
-  console.log("New request: " + req.method + " " + req.url);
+  console.log("New request: " + req.method + " " + req.headers.host + req.url);
 
   const data = {recipe: "butter the bread"};
   const json = JSON.stringify(data);
