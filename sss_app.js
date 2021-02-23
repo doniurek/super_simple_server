@@ -1,7 +1,7 @@
 const http = require('http');
 
 function handleRequest(req, res) {
-  console.log("New request: " + req.method);
+  console.log("New request: " + req.method + " " + req.url);
 
   const data = {recipe: "butter the bread"};
   const json = JSON.stringify(data);
