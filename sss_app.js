@@ -20,9 +20,21 @@ function handleRequest(request, response) {
 
 function newRequestLog(request) {
   console.log(
-    "New request: "  +
-    request.method + " " +
-    request.headers.host +
+    "New request: "         +
+    protocol(request) + " " +
+    request.method    + " " +
+    request.headers.host    +
     request.url
   );
+};
+
+function protocol(request) {
+  switch (request.protocol) {
+    case undefined:
+      return "http";
+    case "https":
+      return "https";
+    default:
+      return "UNSUPPORTED PROTOCOL [" + request.protocol + "]";
+  }
 };
