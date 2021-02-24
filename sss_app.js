@@ -18,12 +18,17 @@ function handleRequest(request, response) {
 };
 
 function newRequestLog(request, body) {
+  let url = new URL(request.url, `http://${request.headers.host}`);
+
   console.log(
     "New request: "         +
     protocol(request) + " " +
     request.method    + " " +
     request.headers.host    +
-    request.url
+    url.pathname            +
+    "\n"                    +
+    "Query params: "        +
+    urlToJSON(url)
   );
   if (request.method !== "GET") {
     console.log("Reqest body: " + JSON.stringify(JSON.parse(body), null, 2));
@@ -48,4 +53,16 @@ function respond(response) {
 
   response.writeHead(200, {'Content-Type': 'application/json'});
   response.end(json);
+};
+
+function urlToJSON(url) {
+  let pairs = url.search.slice(1).split("&");
+  let result = {};
+  pairs.forEach(function(pair) {
+    let splittedPair = pair.split("=");
+    if (splittedPair[0] !== "") {
+      result[splittedPair[0]] = decodeURIComponent(splittedPair[1] || "");
+    };
+  });
+  return JSON.stringify(result, null, 2);
 };
