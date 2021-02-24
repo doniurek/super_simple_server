@@ -6,7 +6,7 @@ let app = http.createServer(handleRequest);
 console.log("Server is up!");
 app.listen(PORT);
 console.log("Listening on port " + PORT);
-console.log("-------------------------");
+console.log("-----------------------------");
 
 function handleRequest(request, response) {
   let body = "";
@@ -23,10 +23,12 @@ function newRequestLog(request, body) {
     protocol(request) + " " +
     request.method    + " " +
     request.headers.host    +
-    request.url      + "\n" +
-    "Reqest body: "         +
-    JSON.stringify(JSON.parse(body), null, 2)
+    request.url
   );
+  if (request.method !== "GET") {
+    console.log("Reqest body: " + JSON.stringify(JSON.parse(body), null, 2));
+  };
+  console.log("-----------------------------");
 };
 
 function protocol(request) {
