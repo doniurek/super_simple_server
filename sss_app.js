@@ -60,7 +60,7 @@ function urlToJSON(url) {
 };
 
 function respond(response) {
-  const data = {recipe: "butter the bread"};
+  const data = {};
   const json = JSON.stringify(data);
 
   response.writeHead(200, {'Content-Type': 'application/json'});
