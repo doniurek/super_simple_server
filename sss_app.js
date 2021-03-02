@@ -47,14 +47,6 @@ function protocol(request) {
   }
 };
 
-function respond(response) {
-  const data = {recipe: "butter the bread"};
-  const json = JSON.stringify(data);
-
-  response.writeHead(200, {'Content-Type': 'application/json'});
-  response.end(json);
-};
-
 function urlToJSON(url) {
   let pairs = url.search.slice(1).split("&");
   let result = {};
@@ -65,4 +57,12 @@ function urlToJSON(url) {
     };
   });
   return JSON.stringify(result, null, 2);
+};
+
+function respond(response) {
+  const data = {recipe: "butter the bread"};
+  const json = JSON.stringify(data);
+
+  response.writeHead(200, {'Content-Type': 'application/json'});
+  response.end(json);
 };
