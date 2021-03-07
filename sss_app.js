@@ -51,9 +51,9 @@ function urlToJSON(url) {
   let pairs = url.search.slice(1).split("&");
   let result = {};
   pairs.forEach(function(pair) {
-    let splittedPair = pair.split("=");
-    if (splittedPair[0] !== "") {
-      result[splittedPair[0]] = decodeURIComponent(splittedPair[1] || "");
+    let [key, value] = pair.split("=");
+    if (key !== "") {
+      result[key] = decodeURIComponent(value || "");
     };
   });
   return JSON.stringify(result, null, 2);
