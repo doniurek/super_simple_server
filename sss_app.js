@@ -48,14 +48,16 @@ function protocol(request) {
 };
 
 function urlToJSON(url) {
-  let pairs = url.search.slice(1).split("&");
-  let result = {};
-  pairs.forEach(function(pair) {
+  const reducer = function(accumulator, pair) {
     let [key, value] = pair.split("=");
     if (key !== "") {
-      result[key] = decodeURIComponent(value || "");
-    };
-  });
+      accumulator[key] = decodeURIComponent(value || "");
+    }
+    return accumulator;
+  };
+
+  let result = url.search.slice(1).split("&").reduce(reducer, {});
+
   return JSON.stringify(result, null, 2);
 };
 
