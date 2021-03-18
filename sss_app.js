@@ -12,14 +12,31 @@ function handleRequest(request, response) {
   let body = "";
   request.on("data", chunk => { body += chunk; });
   request.on("end", () => {
-    newRequestLog(request, body);
-    respond(response);
+    const url = new URL(request.url, `http://${request.headers.host}`);
+
+    newRequestLog(request, body, url);
+    route(request, response, url);
   });
 };
 
-function newRequestLog(request, body) {
-  let url = new URL(request.url, `http://${request.headers.host}`);
+function route(request, response, url) {
+  const routerPath = ROUTER[url.pathname.slice(1)]
+  if (!routerPath)
+    return notFound(response);
 
+  const handler = routerPath[request.method]
+  if (!handler)
+    return notFound(response);
+
+  handler(request, response);
+};
+
+function notFound(response) {
+  response.writeHead(404, {"Content-Type": "text/plain"});
+  response.end();
+};
+
+function newRequestLog(request, body, url) {
   console.log(
     "New request: "         +
     protocol(request) + " " +
@@ -59,12 +76,4 @@ function urlToJSON(url) {
   let result = url.search.slice(1).split("&").reduce(reducer, {});
 
   return JSON.stringify(result, null, 2);
-};
-
-function respond(response) {
-  const data = {};
-  const json = JSON.stringify(data);
-
-  response.writeHead(200, {'Content-Type': 'application/json'});
-  response.end(json);
 };
